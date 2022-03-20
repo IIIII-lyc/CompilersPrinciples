@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LexicalAnalyzer {
     public static void main(String[] args) {
@@ -46,13 +48,13 @@ public class LexicalAnalyzer {
                         i++;
                     } while (i < strLen && Character.isDigit(c = source.charAt(i)));
                 }
-                if (source.charAt(i) != ' ' && source.charAt(i) != ';') {
+                if (source.charAt(i) != ' ' && !Token.SEPARATOR.contains(String.valueOf(source.charAt(i)))) {
                     while (i < strLen && (c = source.charAt(i)) != ' ' && !Token.OPERATOR.contains(String.valueOf(c))
-                            && !Token.OPERATOR.contains(String.valueOf(c))) {
+                            && !Token.SEPARATOR.contains(String.valueOf(c))) {
                         token.append(c);
                         i++;
                     }
-                    result.add(token.toString() + "  ERROR");
+                    result.add(token + "  ERROR");
                 } else {
                     result.add(token.toString());
                 }
@@ -85,6 +87,8 @@ public class LexicalAnalyzer {
 
 
     public static void analyse(List<String> list) {
+        String isFloat="^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$";
+        String isInt="^[1-9]\\d*$";
         for (String str : list) {
             String strings = null;
             if (Token.TYPE.contains(str))
@@ -99,7 +103,7 @@ public class LexicalAnalyzer {
                 strings = "运算符";
             else if (Token.SEPARATOR.contains(str))
                 strings = "分隔符";
-            else if (Character.isDigit(str.charAt(0)))
+            else if (Pattern.matches(isFloat, str)||Pattern.matches(isInt, str))
                 strings = "num";
             else
                 strings = "变量";
