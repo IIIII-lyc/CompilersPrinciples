@@ -7,6 +7,7 @@ public class LexicalAnalyzer {
     public static void main(String[] args) {
         FileReader reader = new FileReader("test.txt");
         String str = reader.readString();
+        System.out.println("test="+str.charAt(1)+"=end");
         List<String> scan = scan(str);
         analyse(scan);
     }

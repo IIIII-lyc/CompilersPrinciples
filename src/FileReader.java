@@ -17,7 +17,7 @@ public class FileReader {
 		StringBuilder sb = new StringBuilder();
 		try {
 			List<String> list = Files.readAllLines(Paths.get(fileName),StandardCharsets.UTF_8);
-			list.forEach(sb::append);
+			list.forEach(str->sb.append(str).append('\n'));
 			String str = sb.toString();
 			str = StringResolver.resolve(str);
 			return str;

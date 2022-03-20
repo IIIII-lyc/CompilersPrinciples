@@ -9,7 +9,7 @@ public class StringResolver {
 	
 	private static String removeSpaceAndLineBreak(String str) {
 		str = str.trim();
-		return str.replaceAll("[\\t|\\n|\\x0B|\\f|\\r]", "");
+		return str.replaceAll("[\\t|\\n|\\x0B|\\f|\\r]", " ");
 	}
 	
 	

@@ -106,7 +106,6 @@ public class Token {
         SEPARATOR.add("{");
         SEPARATOR.add("}");
         SEPARATOR.add(";");
-
     }
 
 }
