@@ -48,6 +48,13 @@ public class LexicalAnalyzer {
                         i++;
                     } while (i < strLen && Character.isDigit(c = source.charAt(i)));
                 }
+                if (i < strLen && (c == 'E' || c == 'e')) {
+                    do {
+                        token.append(c);
+                        i++;
+                    } while (i < strLen && Character.isDigit(c = source.charAt(i)));
+                }
+
                 if (source.charAt(i) != ' ' && !Token.SEPARATOR.contains(String.valueOf(source.charAt(i)))) {
                     while (i < strLen && (c = source.charAt(i)) != ' ' && !Token.OPERATOR.contains(String.valueOf(c))
                             && !Token.SEPARATOR.contains(String.valueOf(c))) {
@@ -87,8 +94,7 @@ public class LexicalAnalyzer {
 
 
     public static void analyse(List<String> list) {
-        String isFloat="^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$";
-        String isInt="^[1-9]\\d*$";
+        String isFloat = "[+-]?[\\d]+([\\.][\\d]*)?([Ee][+-]?[0-9]{0,2})?";
         for (String str : list) {
             String strings = null;
             if (Token.TYPE.contains(str))
@@ -103,7 +109,7 @@ public class LexicalAnalyzer {
                 strings = "运算符";
             else if (Token.SEPARATOR.contains(str))
                 strings = "分隔符";
-            else if (Pattern.matches(isFloat, str)||Pattern.matches(isInt, str))
+            else if (Pattern.matches(isFloat, str))
                 strings = "num";
             else
                 strings = "变量";
