@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class LexicalAnalyzer {
     public static void main(String[] args) {
@@ -47,7 +46,16 @@ public class LexicalAnalyzer {
                         i++;
                     } while (i < strLen && Character.isDigit(c = source.charAt(i)));
                 }
-                result.add(token.toString());
+                if (source.charAt(i) != ' ' && source.charAt(i) != ';') {
+                    while (i < strLen && (c = source.charAt(i)) != ' ' && !Token.OPERATOR.contains(String.valueOf(c))
+                            && !Token.OPERATOR.contains(String.valueOf(c))) {
+                        token.append(c);
+                        i++;
+                    }
+                    result.add(token.toString() + "  ERROR");
+                } else {
+                    result.add(token.toString());
+                }
                 token.setLength(0);
             }
 
@@ -60,7 +68,7 @@ public class LexicalAnalyzer {
                 token.setLength(0);
             }
 
-            if (i < strLen&&c!=' '&&!Token.OPERATOR.contains(String.valueOf(c))) {
+            if (i < strLen && c != ' ' && !Token.OPERATOR.contains(String.valueOf(c))) {
                 result.add(String.valueOf(c));
                 i++;
             }
@@ -70,32 +78,32 @@ public class LexicalAnalyzer {
     }
 
     public static boolean isVariable(char c) {
-        if(Character.isLetter(c) || c == '_' || c == '$')
+        if (Character.isLetter(c) || c == '_' || c == '$')
             return true;
         return false;
     }
 
 
-    public static void analyse(List<String> list){
+    public static void analyse(List<String> list) {
         for (String str : list) {
-            String strings=null;
+            String strings = null;
             if (Token.TYPE.contains(str))
                 strings = "数据类型";
             else if (Token.STATMENT.contains(str))
                 strings = "语句";
             else if (Token.MODIFIER.contains(str))
                 strings = "修饰符";
-            else if(Token.OTHER.contains(str))
+            else if (Token.OTHER.contains(str))
                 strings = "其他";
-            else if(Token.OPERATOR.contains(str))
+            else if (Token.OPERATOR.contains(str))
                 strings = "运算符";
-            else if(Token.SEPARATOR.contains(str))
+            else if (Token.SEPARATOR.contains(str))
                 strings = "分隔符";
-            else if(Character.isDigit(str.charAt(0)))
+            else if (Character.isDigit(str.charAt(0)))
                 strings = "num";
             else
                 strings = "变量";
-            System.out.println("<"+str+","+strings+">");
+            System.out.println("<" + str + "," + strings + ">");
         }
     }
 
